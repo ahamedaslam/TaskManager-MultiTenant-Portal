@@ -1,0 +1,48 @@
+<div class="otp-container">
+
+  <div class="otp-card">
+
+    <h2 class="otp-title">Verify OTP</h2>
+
+    <p class="otp-subtitle">
+      Enter the OTP sent to <strong>{{ username }}</strong>
+    </p>
+
+    <form [formGroup]="otpForm" (ngSubmit)="validateOTP()">
+
+      <!-- OTP Boxes -->
+          <div class="otp-box-group">
+
+  <input
+    *ngFor="let box of otpArray; let i = index; trackBy: trackByIndex"
+    type="text"
+    maxlength="1"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    class="otp-box"
+    (input)="moveNext($event, i)"
+    (keydown)="movePrev($event, i)"
+  />
+
+</div>
+
+      <!-- Error -->
+      <div class="error-msg" *ngIf="otpForm.get('otp')?.touched && otpForm.get('otp')?.invalid">
+        OTP must be 4–6 digits
+      </div>
+
+      <!-- Button -->
+      <button class="btn-submit" type="submit" [disabled]="loading">
+        {{ loading ? 'Verifying...' : 'Verify OTP' }}
+      </button>
+
+    </form>
+
+    <div class="resend-container">
+      Didn't receive OTP?
+      <a class="resend-link">Resend</a>
+    </div>
+
+  </div>
+
+</div>

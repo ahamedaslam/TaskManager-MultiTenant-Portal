@@ -1,0 +1,113 @@
+/* Page Background */
+.otp-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-dark)
+  );
+
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Card */
+.otp-card {
+  background: var(--card-bg);
+  padding: 40px 35px;
+  border-radius: var(--radius);
+  width: 360px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+
+/* Title */
+.otp-title {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Subtitle */
+.otp-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 25px;
+}
+
+/* OTP box group */
+.otp-box-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* OTP box */
+.otp-box {
+  width: 45px;
+  height: 50px;
+  font-size: 20px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.otp-box:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(79, 70, 229, 0.4);
+}
+
+/* Error message */
+.error-msg {
+  color: red;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+/* Submit button */
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+
+  background: var(--primary-color);
+  color: white;
+
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-submit:hover {
+  background: var(--primary-dark);
+}
+
+.btn-submit:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Resend */
+.resend-container {
+  margin-top: 18px;
+  font-size: 14px;
+}
+
+.resend-link {
+  color: var(--primary-color);
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+.resend-link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,74 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RequestHelper } from '../../helpers/RequestHelper';
+import { ToastrService } from 'ngx-toastr';
+import { LOGINURL } from '../../Utility/ServiceConstant';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent {
+  loginForm!: FormGroup;
+  loading = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private requestHelper: RequestHelper,
+    private toastr: ToastrService,
+    private router: Router,
+  ) {
+    //Data entered by the user into the login form (like username and password)
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
+
+//   ngOnInit() {
+//   this.toastr.success("Toastr working");
+// }
+
+  login() {
+  if (this.loginForm.invalid) {
+    this.toastr.warning('Please enter both username and password.');
+    return;
+  }
+
+  this.loading = true;
+  const payload = this.loginForm.value;
+
+  this.requestHelper.sendData('POST', LOGINURL, payload).subscribe({
+    next: (res) => {
+      console.log('Login API call successful:', res);
+
+      if (res.responseCode === 0) {
+        sessionStorage.setItem('accessToken', res.responseDatas?.accessToken);
+        sessionStorage.setItem('refreshToken', res.responseDatas?.refreshToken);
+        sessionStorage.setItem('userId', res.responseDatas?.user?.userId);
+
+        this.toastr.success(res?.responseDescription || 'Login successful');
+        this.router.navigate(['/verify-otp'], { queryParams: { username: payload.username } });
+      } else {
+        this.toastr.error(res?.responseDescription || 'Login failed. Please try again.');
+      }
+
+      this.loading = false;
+    },
+    error: (err) => {
+      console.error('Login API call failed:', err);
+      this.loading = false;
+
+      const errorMsg =
+        err?.error?.responseDescription ||
+        err?.message ||
+        'An unexpected error occurred.';
+
+      this.toastr.error(errorMsg);
+    }
+  });
+}
+
+}
