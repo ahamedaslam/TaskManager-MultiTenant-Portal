@@ -1,13 +1,14 @@
+/* Global Theme Variables */
+
 :root {
 
-  --primary-color: #6366f1;   /* softer indigo */
+  --primary-color: #6366f1;
   --primary-dark: #5458e8;
 
   --bg-color: #f8fafc;
   --card-bg: #ffffff;
 
   --text-primary: #111827;
-  
   --text-secondary: #6b7280;
 
   --border-color: #e5e7eb;

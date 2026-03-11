@@ -1,0 +1,61 @@
+.dashboard{
+  padding: 25px;
+  background: var(--bg-color);
+}
+
+.dashboard-title{
+  font-size:28px;
+  font-weight:600;
+  margin-bottom:20px;
+}
+
+/* KPI cards */
+
+.stats-grid{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:20px;
+  margin-bottom:25px;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border-left: 5px solid var(--primary-color);
+}
+
+.stat-card h4{
+  color: var(--text-secondary);
+  margin-bottom:8px;
+}
+
+.stat-card h2{
+  font-size:32px;
+  font-weight:600;
+}
+
+/* charts */
+
+.charts-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:20px;
+}
+
+.chart-card{
+  background: var(--card-bg);
+  padding:20px;
+  border-radius: var(--radius);
+ 
+ 
+ .chart-card canvas{
+  max-height:300px;
+} box-shadow: var(--shadow-card);
+}
+
+.chart-card canvas {
+  max-height: 280px;
+  margin-top: 10px;
+}

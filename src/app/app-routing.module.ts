@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from './component/login/login.component';
 import { ValidateOTPComponent } from './component/validate-otp/validate-otp.component';
-import { DashboardComponent } from '../app/component/dashboard/dashboard.component';
+import { DashboardComponent } from './component/dashboard/dashboard.component';
+import { LayoutComponent } from './component/Layout/layout/layout.component';
 
 const routes: Routes = [
 
@@ -14,7 +15,16 @@ const routes: Routes = [
 
   { path: 'verify-otp', component: ValidateOTPComponent },
 
-  { path: 'dashboard', component: DashboardComponent , canActivate: [AuthGuard] }
+  /* Protected Layout Routes */
+
+  {
+    path: '',
+    component: LayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'dashboard', component: DashboardComponent }
+    ]
+  }
 
 ];
 

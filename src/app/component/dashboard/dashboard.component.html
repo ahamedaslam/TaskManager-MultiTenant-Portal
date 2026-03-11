@@ -1,1 +1,64 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+<h1 class="dashboard-title">Dashboard</h1>
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <h4>Total Tasks</h4>
+      <h2>{{dashboard.totalTasks}}</h2>
+    </div>
+
+    <div class="stat-card">
+      <h4>Completed Tasks</h4>
+      <h2>{{dashboard.completedTasks}}</h2>
+    </div>
+
+    <div class="stat-card">
+      <h4>Pending Tasks</h4>
+      <h2>{{dashboard.pendingTasks}}</h2>
+    </div>
+
+  </div>
+
+  <!-- Charts -->
+  <div class="charts-grid">
+
+    <div class="chart-card">
+      <h4>Task Distribution</h4>
+
+      <canvas
+        baseChart
+        [data]="taskChartData"
+        [options]="chartOptions"
+        [type]="'doughnut'">
+      </canvas>
+
+      <!-- Task List Preview -->
+      <div class="task-preview" *ngIf="hoveredTasks.length > 0">
+
+        <h5>{{hoveredStatus}} Tasks</h5>
+
+        <ul>
+          <li *ngFor="let task of hoveredTasks">
+            {{task.title}}
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="chart-card">
+      <h4>Tasks Overview</h4>
+
+      <canvas
+        baseChart
+        [data]="taskBarChart"
+        [type]="'bar'">
+      </canvas>
+
+    </div>
+
+  </div>
+
+</div>

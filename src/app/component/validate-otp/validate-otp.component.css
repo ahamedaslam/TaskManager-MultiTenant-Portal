@@ -7,7 +7,7 @@
 
   background: linear-gradient(
     135deg,
-    var(--primary-color),
+    var(- --bg-color),
     var(--primary-dark)
   );
 

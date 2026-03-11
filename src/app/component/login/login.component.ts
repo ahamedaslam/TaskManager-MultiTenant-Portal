@@ -49,7 +49,7 @@ export class LoginComponent {
         sessionStorage.setItem('refreshToken', res.responseDatas?.refreshToken);
         sessionStorage.setItem('userId', res.responseDatas?.user?.userId);
 
-        this.toastr.success(res?.responseDescription || 'Login successful');
+        this.toastr.success(res?.responseDatas || 'Login successful');
         this.router.navigate(['/verify-otp'], { queryParams: { username: payload.username } });
       } else {
         this.toastr.error(res?.responseDescription || 'Login failed. Please try again.');

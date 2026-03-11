@@ -8,3 +8,5 @@ body {
   background: var(--bg-color);
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

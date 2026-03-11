@@ -2,7 +2,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgChartsModule } from 'ng2-charts';
 
+import { MaterialModule } from '../material.module';
 import { ToastrModule } from 'ngx-toastr';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +15,7 @@ import { LayoutComponent } from './component/Layout/layout/layout.component';
 import { SidebarComponent } from './component/Layout/sidebar/sidebar.component';
 import { NavbarComponent } from './component/Layout/navbar/navbar.component';
 import { DashboardComponent } from './component/dashboard/dashboard.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -30,10 +33,14 @@ import { DashboardComponent } from './component/dashboard/dashboard.component';
   ReactiveFormsModule,
   BrowserAnimationsModule,   // must come before toastr
   HttpClientModule,
+  MaterialModule,
+  NgChartsModule,
 
   ToastrModule.forRoot()
 ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
