@@ -1,0 +1,146 @@
+/* Page background */
+
+
+
+.login-wrapper{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+/* Card */
+
+.login-card{
+
+    width:380px;
+    background:white;
+    padding:40px;
+    border-radius:18px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.15);
+    text-align:center;
+}
+
+
+/* Title */
+
+.login-card h2{
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.login-card p{
+    font-size:14px;
+    color:#777;
+    margin-bottom:25px;
+}
+
+
+/* Input group */
+
+.input-group{
+    position:relative;
+    margin-bottom:18px;
+}
+
+.input-group input{
+
+    width:90%;
+    padding:12px 12px 12px 40px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    background:#f7f7f7;
+    outline:none;
+    transition:0.3s;
+}
+
+.input-group input:focus{
+
+    border-color:#ff4d4d;
+    background:white;
+}
+
+
+/* Icons */
+
+.icon{
+
+    position:absolute;
+    top:50%;
+    left:12px;
+    transform:translateY(-50%);
+    color:#999;
+}
+
+
+/* Remember section */
+
+.login-options{
+
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    margin-bottom:18px;
+}
+
+.login-options a{
+
+    color:#ff4d4d;
+    text-decoration:none;
+}
+
+
+/* Button */
+
+button{
+
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#ff4d4d;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#e63c3c;
+}
+
+
+/* Spinner */
+
+.spinner{
+
+    border:3px solid rgba(255,255,255,0.3);
+    border-top:3px solid white;
+    border-radius:50%;
+    width:16px;
+    height:16px;
+    animation:spin 0.8s linear infinite;
+    margin-right:6px;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+
+/* Signup */
+
+.signup-link{
+
+    margin-top:20px;
+    font-size:13px;
+}
+
+.signup-link a{
+
+    color:#ff4d4d;
+    text-decoration:none;
+}
