@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { RequestHelper } from '../../helpers/RequestHelper';
-import { DASHBOARDURL, GETALLTASKSURL } from '../../Utility/ServiceConstant';
+import { DASHBOARDURL, GETALLTASKSURL, CHATBOTURL} from '../../Utility/ServiceConstant';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -13,6 +13,12 @@ export class DashboardComponent implements OnInit {
 
 hoveredTasks: any[] = [];
 hoveredStatus = '';
+
+//ai-chatbot
+message: any[] = []; // any can hold any type of data, here it is used to store chat messages
+userMessage: string = ''; // to hold the current message input by the user
+isChatOpen = false; // by default the chat window is closed
+
 
   dashboard = {
     totalTasks: 0,
@@ -161,6 +167,68 @@ taskBarChart: ChartConfiguration<'bar'>['data'] = {
 
   });
 
+  
+
 }
+
+  /* -------- Chat-Bot -------- */
+
+
+toggleChat() {
+
+  //using of 'this' keyword to access the component's property 'isChatOpen' and toggle its value between true and false.
+  this.isChatOpen = !this.isChatOpen; // Toggle the chat window open/close state
+}
+
+// This method will be called when the user submits a message in the chat input field. It will add the user's message to the chat history and then call the sendMessage() method to handle sending the message to the backend or processing it further.
+sendMessage(){
+
+  if(!this.userMessage)return; 
+
+
+  // Add the user's message to the chat history with a sender identifier of 'user'. This allows the chat interface to differentiate between messages sent by the user and responses from the chatbot or system.
+  this.message.push
+  ({
+      text: this.userMessage,
+      sender: 'user'
+   });
+
+   const payLoad = {
+    message: this.userMessage
+  };
+
+  this.requestHelper.sendData('POST', CHATBOTURL, payLoad).subscribe({
+    next: (res: any) => {
+
+      if (res.responseCode === 0) {
+
+        let aiData = res.responseDatas;
+
+        // Handle JSON or string
+        if (typeof aiData === 'object') {
+          aiData = JSON.stringify(aiData, null, 2);
+        }
+
+        this.message.push({
+          text: aiData,
+          sender: 'bot'
+        });
+
+      } else {
+        this.toastr.error('AI response failed');
+      }
+
+    },
+
+    error: (err) => {
+      console.error(err);
+      this.toastr.error('Error calling AI');
+    }
+
+  });
+
+  this.userMessage = '';
+}
+
 
 }

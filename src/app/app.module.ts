@@ -7,6 +7,8 @@ import { NgChartsModule } from 'ng2-charts';
 import { MaterialModule } from '../material.module';
 import { ToastrModule } from 'ngx-toastr';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './component/login/login.component';
@@ -25,12 +27,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     LayoutComponent,
     SidebarComponent,
     NavbarComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
  imports: [
   BrowserModule,
   AppRoutingModule,
   ReactiveFormsModule,
+  FormsModule,
   BrowserAnimationsModule,   // must come before toastr
   HttpClientModule,
   MaterialModule,

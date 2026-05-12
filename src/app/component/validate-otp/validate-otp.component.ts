@@ -67,6 +67,8 @@ export class ValidateOTPComponent implements OnInit {
         sessionStorage.setItem('refreshToken', res.responseDatas.refreshToken);
         sessionStorage.setItem('expiresAt', res.responseDatas.expiresAt);
         sessionStorage.setItem('user', JSON.stringify(res.responseDatas.user));
+        sessionStorage.setItem('userid', res.responseDatas.userId);
+
 
         // Navigate to dashboard
         this.router.navigate(['/dashboard']);
