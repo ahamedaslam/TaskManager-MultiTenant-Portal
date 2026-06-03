@@ -50,7 +50,12 @@ export class LoginComponent {
         sessionStorage.setItem('userId', res.responseDatas?.user?.userId);
 
         this.toastr.success(res?.responseDatas || 'Login successful');
-        this.router.navigate(['/verify-otp'], { queryParams: { username: payload.username } });
+  // Hold for 5 seconds before navigation
+  setTimeout(() => {
+    this.router.navigate(['/verify-otp'], {
+      queryParams: { username: payload.username }
+    });
+  }, 5000);
       } else {
         this.toastr.error(res?.responseDescription || 'Login failed. Please try again.');
       }
