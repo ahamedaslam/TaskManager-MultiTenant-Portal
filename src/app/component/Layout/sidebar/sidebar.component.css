@@ -1,49 +1,92 @@
-.sidebar{
-  width:70px;
-  height:100vh;
-  background:#1f2937;
-  position:fixed;
-  left:0;
-  top:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding-top:20px;
+.sidebar {
+  width: 70px;
+  height: 100vh;
+  background: #04383c;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 24px;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+  box-sizing: border-box;
 }
 
-.menu{
-  display:flex;
-  flex-direction:column;
-  gap:30px;
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  align-items: center;
 }
 
-.menu-item{
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
+.menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
 }
 
-.menu-item mat-icon{
-  color:white;
+.menu-item mat-icon {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 24px;
+  transition: color 0.2s ease;
 }
 
-.menu-label{
-  position:absolute;
-  left:60px;
-  background:#111827;
-  color:white;
-  padding:6px 10px;
-  border-radius:6px;
-  font-size:12px;
-  white-space:nowrap;
-  opacity:0;
-  transform:translateX(-5px);
-  transition:0.2s;
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.menu-item:hover .menu-label{
-  opacity:1;
-  transform:translateX(0);
+.menu-item:hover mat-icon {
+  color: #ffffff;
+}
+
+.menu-item.active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.menu-item.active mat-icon {
+  color: #2dd4bf;
+}
+
+/* Active indicator tab */
+.menu-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 4px;
+  height: 20px;
+  background: #2dd4bf;
+  border-radius: 0 4px 4px 0;
+}
+
+.menu-label {
+  position: absolute;
+  left: 65px;
+  background: #011719;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.menu-item:hover .menu-label {
+  opacity: 1;
+  transform: translateX(0);
 }

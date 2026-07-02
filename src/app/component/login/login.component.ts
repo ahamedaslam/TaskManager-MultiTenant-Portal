@@ -1,3 +1,20 @@
+/**
+ * LoginComponent
+ * 
+ * Purpose:
+ * This component handles the user login process for the TaskManager Multi-Tenant Portal.
+ * It provides a reactive form (loginForm) with fields for 'username' and 'password'.
+ * 
+ * Flow:
+ * 1. The user inputs their credentials and clicks "Login".
+ * 2. It sends a POST request with the credentials payload to the LOGINURL via RequestHelper.
+ * 3. On success (responseCode === 0):
+ *    - Saves tokens (accessToken, refreshToken) and userId in sessionStorage.
+ *    - Triggers a success notification using Toastr.
+ *    - Pauses for 5 seconds, then routes the user to the OTP verification page (/verify-otp) with the username.
+ * 4. Displays an error toast message if credentials are invalid or if a server error occurs.
+ */
+
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';

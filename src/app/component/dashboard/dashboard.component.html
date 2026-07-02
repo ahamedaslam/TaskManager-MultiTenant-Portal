@@ -1,21 +1,37 @@
 <div class="dashboard">
-<h1 class="dashboard-title">Dashboard</h1>
+  <h1 class="dashboard-title">Dashboard</h1>
+
   <!-- Stats Cards -->
   <div class="stats-grid">
 
-    <div class="stat-card">
-      <h4>Total Tasks</h4>
-      <h2>{{dashboard.totalTasks}}</h2>
+    <div class="stat-card total-tasks-card">
+      <div class="stat-info">
+        <h4>Total Tasks</h4>
+        <h2>{{dashboard.totalTasks}}</h2>
+      </div>
+      <div class="stat-icon-wrapper">
+        <span class="material-icons">assignment</span>
+      </div>
     </div>
 
-    <div class="stat-card">
-      <h4>Completed Tasks</h4>
-      <h2>{{dashboard.completedTasks}}</h2>
+    <div class="stat-card completed-tasks-card">
+      <div class="stat-info">
+        <h4>Completed Tasks</h4>
+        <h2>{{dashboard.completedTasks}}</h2>
+      </div>
+      <div class="stat-icon-wrapper">
+        <span class="material-icons">task_alt</span>
+      </div>
     </div>
 
-    <div class="stat-card">
-      <h4>Pending Tasks</h4>
-      <h2>{{dashboard.pendingTasks}}</h2>
+    <div class="stat-card pending-tasks-card">
+      <div class="stat-info">
+        <h4>Pending Tasks</h4>
+        <h2>{{dashboard.pendingTasks}}</h2>
+      </div>
+      <div class="stat-icon-wrapper">
+        <span class="material-icons">hourglass_empty</span>
+      </div>
     </div>
 
   </div>
@@ -35,55 +51,57 @@
 
       <!-- Task List Preview -->
       <div class="task-preview" *ngIf="hoveredTasks.length > 0">
-
         <h5>{{hoveredStatus}} Tasks</h5>
-
         <ul>
           <li *ngFor="let task of hoveredTasks">
             {{task.title}}
           </li>
         </ul>
-
       </div>
-
     </div>
 
     <div class="chart-card">
       <h4>Tasks Overview</h4>
-
       <canvas
         baseChart
         [data]="taskBarChart"
         [type]="'bar'">
       </canvas>
-
     </div>
 
   </div>
 
-  <!-- Chat Button -->
-<div class="chat-button" (click)="toggleChat()">
-  💬
-</div>
-
-<!-- Chat Window -->
-<div class="chat-window" *ngIf="isChatOpen">
-
-  <div class="chat-header">
-    AI Assistant
+  <!-- Chat Button FAB -->
+  <div class="chat-button-fab" (click)="toggleChat()" [class.open]="isChatOpen">
+    <span class="material-icons">{{ isChatOpen ? 'close' : 'smart_toy' }}</span>
   </div>
 
-  <div class="chat-body">
-    <div *ngFor="let msg of message" [ngClass]="msg.sender">
-      {{ msg.text }}
+  <!-- Chat Window -->
+  <div class="chat-window-panel" *ngIf="isChatOpen">
+    <div class="chat-header-bar">
+      <div class="chat-bot-avatar">
+        <span class="material-icons">smart_toy</span>
+      </div>
+      <div class="chat-bot-info">
+        <h3>AI Assistant</h3>
+        <p>Online • Ask me about tasks</p>
+      </div>
+    </div>
+
+    <div class="chat-message-list">
+      <div *ngFor="let msg of message" class="chat-message-row" [ngClass]="msg.sender">
+        <div class="message-bubble">
+          {{ msg.text }}
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-bar">
+      <input [(ngModel)]="userMessage" placeholder="Ask something..." (keyup.enter)="sendMessage()" />
+      <button (click)="sendMessage()">
+        <span class="material-icons">send</span>
+      </button>
     </div>
   </div>
-
-  <div class="chat-input">
-    <input [(ngModel)]="userMessage" placeholder="Ask something..." />
-    <button (click)="sendMessage()">Send</button>
-  </div>
-
-</div>
 
 </div>

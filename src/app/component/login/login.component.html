@@ -1,44 +1,39 @@
-<div class="login-wrapper">
+<div class="auth-wrapper">
 
-  <div class="login-card">
+  <div class="auth-card">
 
-    <h2>Sign In</h2>
-    <p>Sign in to continue to your application</p>
+    <div class="auth-brand-header">
+      <h2>User Login</h2>
+    </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="login()">
 
       <!-- Username -->
-      <div class="input-group">
-        <i class="icon fa fa-user"></i>
-        <input type="text" formControlName="username" placeholder="Username">
+      <div class="input-pill-wrapper left-badge">
+        <div class="badge-circle">
+          <span class="material-icons">person_outline</span>
+        </div>
+        <input type="text" formControlName="username" placeholder="Username" autocomplete="username">
       </div>
 
       <!-- Password -->
-      <div class="input-group">
-        <i class="icon fa fa-lock"></i>
-        <input type="password" formControlName="password" placeholder="Password">
+      <div class="input-pill-wrapper right-badge">
+        <input type="password" formControlName="password" placeholder="Password" autocomplete="current-password">
+        <div class="badge-circle">
+          <span class="material-icons">lock_outline</span>
+        </div>
       </div>
 
-      <!-- Remember -->
-      <div class="login-options">
-        <label>
-          <input type="checkbox"> Remember me
-        </label>
-        <a href="#">Forgot password?</a>
-      </div>
-
-      <!-- Button -->
-      <button type="submit" [disabled]="loading">
-        <ng-container *ngIf="!loading; else loadingTpl">Sign In</ng-container>
-
+      <!-- Action Button -->
+      <button type="submit" [disabled]="loading" class="btn-pill-login">
+        <ng-container *ngIf="!loading; else loadingTpl">LOGIN</ng-container>
         <ng-template #loadingTpl>
-          <span class="spinner"></span> Signing in...
+          <div class="auth-loading-wrapper">
+            <span class="auth-spinner"></span>
+            <span>LOGGING IN...</span>
+          </div>
         </ng-template>
       </button>
-
-      <p class="signup-link">
-        Not a member? <a href="#">Sign up</a>
-      </p>
 
     </form>
 

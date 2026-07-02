@@ -1,3 +1,19 @@
+/**
+ * RequestHelper Service
+ * 
+ * Purpose:
+ * This helper service encapsulates HTTP logic for sending requests to the backend API.
+ * It provides a central place for routing HTTP requests, configuring default headers, 
+ * implementing error management, and handling local authentication state.
+ * 
+ * Features:
+ * 1. HTTP Methods Wrapper (sendData): Supports GET, POST, PUT, and DELETE.
+ * 2. Cache Busting: Automatically appends a timestamp query parameter to GET requests to prevent cached browser responses.
+ * 3. Authorization Headers: Automatically attaches the JWT bearer token from sessionStorage to the 'Authorization' header of requests.
+ * 4. Error Handling: Intercepts network & HTTP errors (401, 403, 404, 500, etc.) to trigger Toastr messages, clear storage on session expiry, and redirect to the login screen.
+ * 5. Credentials Helper: Provides utility methods for "Remember Me" credential preservation using localStorage.
+ */
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
