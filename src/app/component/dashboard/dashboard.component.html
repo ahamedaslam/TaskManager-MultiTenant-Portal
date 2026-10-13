@@ -1,1 +1,312 @@
-<p>dashboard works!</p>
+<div class="shell" [class.dark]="darkMode" [class.nav-open]="sidebarOpen">
+
+  <!-- ============ Sidebar ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24"><path [attr.d]="icons.tasks" /></svg>
+      </div>
+      <span class="brand-name">TaskFlow</span>
+    </div>
+
+    <!-- Tenant switcher -->
+    <div class="tenant-switcher">
+      <button class="tenant-btn" (click)="tenantMenuOpen = !tenantMenuOpen">
+        <span class="tenant-dot" [style.background]="selectedTenant.color">
+          {{ selectedTenant.name[0] }}
+        </span>
+        <span class="tenant-meta">
+          <strong>{{ selectedTenant.name }}</strong>
+          <small>{{ selectedTenant.plan }} plan</small>
+        </span>
+        <svg class="ic chev" [class.up]="tenantMenuOpen" viewBox="0 0 24 24"><path [attr.d]="icons.chevron" /></svg>
+      </button>
+
+      <div class="tenant-menu" *ngIf="tenantMenuOpen">
+        <p class="menu-label">Switch workspace</p>
+        <button *ngFor="let t of tenants" class="tenant-option"
+                [class.selected]="t.id === selectedTenant.id" (click)="selectTenant(t)">
+          <span class="tenant-dot sm" [style.background]="t.color">{{ t.name[0] }}</span>
+          <span class="tenant-meta">
+            <strong>{{ t.name }}</strong>
+            <small>{{ t.plan }}</small>
+          </span>
+          <svg *ngIf="t.id === selectedTenant.id" class="ic tick" viewBox="0 0 24 24"><path [attr.d]="icons.check" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <p class="nav-label">Menu</p>
+      <a *ngFor="let item of navItems" class="nav-item" [class.active]="item.active">
+        <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="icon(item.icon)" /></svg>
+        <span>{{ item.label }}</span>
+        <em *ngIf="item.badge" class="badge">{{ item.badge }}</em>
+      </a>
+    </nav>
+
+    <div class="upgrade-card">
+      <div class="upgrade-glow"></div>
+      <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="icons.zap" /></svg>
+      <h4>Unlock automations</h4>
+      <p>Auto-assign tasks and set SLA alerts for your teams.</p>
+      <button>Upgrade plan</button>
+    </div>
+
+    <button class="nav-item logout" (click)="logout()">
+      <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="icons.logout" /></svg>
+      <span>Log out</span>
+    </button>
+  </aside>
+
+  <div class="backdrop" (click)="sidebarOpen = false"></div>
+
+  <!-- ============ Main ============ -->
+  <main class="main">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <button class="icon-btn menu-btn" (click)="sidebarOpen = true" aria-label="Open menu">
+        <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="icons.menu" /></svg>
+      </button>
+
+      <div class="search">
+        <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="icons.search" /></svg>
+        <input type="text" placeholder="Search tasks, projects, people…">
+        <kbd>Ctrl K</kbd>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="icon-btn" (click)="toggleTheme()" aria-label="Toggle theme">
+          <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="darkMode ? icons.sun : icons.moon" /></svg>
+        </button>
+        <button class="icon-btn" aria-label="Notifications">
+          <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="icons.bell" /></svg>
+          <span class="ping"></span>
+        </button>
+        <div class="profile">
+          <span class="avatar" [style.--h]="avatarHue(userName)">{{ initials(userName) }}</span>
+          <span class="profile-meta">
+            <strong>{{ userName }}</strong>
+            <small>Tenant Admin</small>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div>
+        <p class="hero-date">{{ today | date:'EEEE, MMMM d' }}</p>
+        <h1>{{ greeting }}, {{ userName }} <span class="wave">👋</span></h1>
+        <p class="hero-sub">
+          You have <strong>5 tasks</strong> due this week in <strong>{{ selectedTenant.name }}</strong>.
+          Keep the momentum going!
+        </p>
+      </div>
+      <div class="hero-actions">
+        <button class="btn ghost">
+          <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="icons.calendar" /></svg>
+          This week
+        </button>
+        <button class="btn primary">
+          <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="icons.plus" /></svg>
+          New Task
+        </button>
+      </div>
+    </section>
+
+    <!-- KPI cards -->
+    <section class="stats">
+      <article *ngFor="let s of stats; let i = index" class="stat-card" [ngClass]="'tone-' + s.tone"
+               [style.animation-delay]="i * 70 + 'ms'">
+        <div class="stat-head">
+          <span class="stat-icon">
+            <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="icon(s.icon)" /></svg>
+          </span>
+          <span class="delta" [class.down]="s.delta < 0" [class.good]="(s.delta >= 0) !== (s.tone === 'rose' || s.tone === 'amber')">
+            {{ s.delta > 0 ? '▲' : '▼' }} {{ s.delta | number:'1.1-1' }}%
+          </span>
+        </div>
+        <p class="stat-label">{{ s.label }}</p>
+        <div class="stat-foot">
+          <h2>{{ s.value | number }}</h2>
+          <svg class="spark" viewBox="0 0 100 32" preserveAspectRatio="none">
+            <path class="spark-area" [attr.d]="sparkArea(s.trend)" />
+            <path class="spark-line" [attr.d]="sparkline(s.trend)" />
+          </svg>
+        </div>
+      </article>
+    </section>
+
+    <!-- Charts row -->
+    <section class="grid charts">
+      <article class="card">
+        <div class="card-head">
+          <div>
+            <h3>Weekly activity</h3>
+            <p>Tasks created vs. completed</p>
+          </div>
+          <div class="legend">
+            <span><i class="lg created"></i>Created</span>
+            <span><i class="lg done"></i>Completed</span>
+          </div>
+        </div>
+        <div class="bars">
+          <div *ngFor="let w of weekly" class="bar-col">
+            <div class="bar-pair">
+              <div class="bar created" [style.height.%]="(w.created / weeklyMax) * 100">
+                <span class="tip">{{ w.created }}</span>
+              </div>
+              <div class="bar done" [style.height.%]="(w.done / weeklyMax) * 100">
+                <span class="tip">{{ w.done }}</span>
+              </div>
+            </div>
+            <span class="bar-label">{{ w.day }}</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <div>
+            <h3>Task status</h3>
+            <p>Across all projects</p>
+          </div>
+        </div>
+        <div class="donut-wrap">
+          <svg class="donut" viewBox="0 0 120 120">
+            <circle class="donut-track" cx="60" cy="60" r="52" />
+            <circle *ngFor="let seg of donutSegments" class="donut-seg" cx="60" cy="60" r="52"
+                    [style.stroke]="seg.color" [attr.stroke-dasharray]="seg.dash"
+                    [attr.stroke-dashoffset]="seg.offset" />
+          </svg>
+          <div class="donut-center">
+            <strong>{{ completionRate }}%</strong>
+            <small>completed</small>
+          </div>
+        </div>
+        <ul class="donut-legend">
+          <li *ngFor="let b of breakdown">
+            <i [style.background]="b.color"></i>
+            <span>{{ b.label }}</span>
+            <strong>{{ b.value }}</strong>
+          </li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- Tasks + side column -->
+    <section class="grid content">
+      <article class="card tasks-card">
+        <div class="card-head">
+          <div>
+            <h3>Active tasks</h3>
+            <p>{{ filteredTasks.length }} tasks</p>
+          </div>
+          <div class="chips">
+            <button *ngFor="let f of filters" class="chip" [class.active]="f === activeFilter"
+                    (click)="activeFilter = f">{{ f }}</button>
+          </div>
+        </div>
+
+        <div class="task-list">
+          <div *ngFor="let t of filteredTasks" class="task-row">
+            <span class="check" [class.done]="t.status === 'Done'">
+              <svg *ngIf="t.status === 'Done'" viewBox="0 0 24 24"><path [attr.d]="icons.check" /></svg>
+            </span>
+            <div class="task-main">
+              <p class="task-title" [class.striked]="t.status === 'Done'">{{ t.title }}</p>
+              <div class="task-meta">
+                <span class="project">{{ t.project }}</span>
+                <span class="due">
+                  <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="icons.clock" /></svg>{{ t.due }}
+                </span>
+              </div>
+            </div>
+            <span class="pill priority" [ngClass]="'p-' + slug(t.priority)">{{ t.priority }}</span>
+            <span class="pill status" [ngClass]="'s-' + slug(t.status)">{{ t.status }}</span>
+            <div class="progress">
+              <div class="progress-bar"><span [style.width.%]="t.progress"></span></div>
+              <small>{{ t.progress }}%</small>
+            </div>
+            <div class="avatars">
+              <span *ngFor="let a of t.assignees" class="avatar xs" [style.--h]="avatarHue(a)" [title]="a">
+                {{ initials(a) }}
+              </span>
+            </div>
+          </div>
+          <p *ngIf="!filteredTasks.length" class="empty">No tasks here — enjoy the calm ✨</p>
+        </div>
+      </article>
+
+      <div class="side-col">
+        <article class="card">
+          <div class="card-head">
+            <div>
+              <h3>Upcoming deadlines</h3>
+            </div>
+          </div>
+          <ul class="deadlines">
+            <li *ngFor="let d of deadlines">
+              <div class="date-tile">
+                <small>{{ d.date | date:'MMM' }}</small>
+                <strong>{{ d.date | date:'d' }}</strong>
+              </div>
+              <div class="dl-meta">
+                <p>{{ d.title }}</p>
+                <small>{{ d.tag }} · in {{ daysLeft(d.date) }} day{{ daysLeft(d.date) === 1 ? '' : 's' }}</small>
+              </div>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div>
+              <h3>Team workload</h3>
+            </div>
+            <button class="icon-btn sm" aria-label="More">
+              <svg class="ic" viewBox="0 0 24 24"><path [attr.d]="icons.more" /></svg>
+            </button>
+          </div>
+          <ul class="team">
+            <li *ngFor="let m of team">
+              <span class="avatar sm" [style.--h]="avatarHue(m.name)">
+                {{ initials(m.name) }}
+                <i class="status-dot" [class.online]="m.online"></i>
+              </span>
+              <div class="team-meta">
+                <div class="team-row">
+                  <strong>{{ m.name }}</strong>
+                  <small [class.hot]="m.load >= 85">{{ m.load }}%</small>
+                </div>
+                <small class="role">{{ m.role }}</small>
+                <div class="load-bar"><span [style.width.%]="m.load" [class.hot]="m.load >= 85"></span></div>
+              </div>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Activity -->
+    <section class="card activity-card">
+      <div class="card-head">
+        <div>
+          <h3>Recent activity</h3>
+          <p>What your team has been up to</p>
+        </div>
+      </div>
+      <ul class="timeline">
+        <li *ngFor="let a of activity" [ngClass]="'tone-' + a.tone">
+          <span class="tl-dot"></span>
+          <span class="avatar xs" [style.--h]="avatarHue(a.who)">{{ initials(a.who) }}</span>
+          <p><strong>{{ a.who }}</strong> {{ a.action }} <em>{{ a.target }}</em></p>
+          <small>{{ a.time }}</small>
+        </li>
+      </ul>
+    </section>
+
+  </main>
+</div>

@@ -1,2 +1,2 @@
-export const LOGINURL = 'api/Auth/login';
-export const VERIFYOTPURL = 'api/Auth/verify-otp';
+export const LOGINURL = 'login';
+export const VERIFYOTPURL = 'verify-otp';
